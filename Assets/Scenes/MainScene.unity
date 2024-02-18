@@ -5242,6 +5242,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  constantForce: {fileID: 641017635}
 --- !u!4 &641017632
 Transform:
   m_ObjectHideFlags: 0

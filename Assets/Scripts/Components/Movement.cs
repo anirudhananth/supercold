@@ -32,6 +32,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private TrailRenderer dashTrail;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private ConstantForce2D constantForce;
 
     private void Start()
     {   
@@ -115,19 +116,47 @@ public class Movement : MonoBehaviour
 
     private IEnumerator PerformDash() {
         if (dashCount == 1 && !isGrounded) yield break;
+
+        Vector2 temp = new(constantForce.force.x, constantForce.force.y);
+        constantForce.force = new Vector2(0,0);
         canDash = false;
         isDashing = true;
+
+        bool isVertical = false;
+        bool pureVertical = false;
+
         if(isGrounded) {
-            rb.velocity = new Vector2(horizontal * dashingPowerX, 0f);
+            rb.velocity = new Vector2(transform.localScale.x * dashingPowerX, 0f);
         } else {
-            rb.velocity = new Vector2(horizontal * dashingPowerX, vertical * dashingPowerY);
+            if(vertical == 0f) {
+                rb.velocity = new Vector2(transform.localScale.x * dashingPowerX, 0f);
+            } else if(horizontal == 0f) {
+                rb.velocity = new Vector2(0f, vertical * dashingPowerY);
+                pureVertical = true;
+            } else {
+                isVertical = true;
+                rb.velocity = new Vector2(transform.localScale.x * dashingPowerX, vertical * dashingPowerY);
+            }
             dashCount = 1;
         }
+
         dashTrail.emitting = true;
         yield return new WaitForSeconds(dashingTime);
+
+        if(isVertical) {
+            rb.velocity = new(horizontal * speed, rb.velocity.y * 0.35f);
+        } else if (pureVertical) {
+            rb.velocity = new(horizontal * speed, rb.velocity.y * 0.50f);
+        } else {
+            rb.velocity = new(horizontal * speed, 0f);
+        }
+
+        constantForce.force = temp;
         isDashing = false;
         dashTrail.emitting = false;
+
         yield return new WaitForSeconds(dashingCooldown);
+
         canDash = true;
     }
 
