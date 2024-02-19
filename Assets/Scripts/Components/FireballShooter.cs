@@ -7,6 +7,7 @@ public class FireballShooter : MonoBehaviour
     [SerializeField] GameObject fireballPrefab;
     [SerializeField] Transform fireballTransform;
     private Rigidbody2D rb;
+    private float fireballSpeed = 17.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +35,6 @@ public class FireballShooter : MonoBehaviour
         fireball.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
         rb = fireball.GetComponent<Rigidbody2D>();
-        rb.velocity = direction * 15f;
+        rb.velocity = direction * fireballSpeed;
     }
 }

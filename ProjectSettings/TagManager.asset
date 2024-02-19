@@ -55,3 +55,6 @@ TagManager:
   - name: Ground
     uniqueID: 1506245361
     locked: 0
+  - name: Fireball
+    uniqueID: 3269485341
+    locked: 0
