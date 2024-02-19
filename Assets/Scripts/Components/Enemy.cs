@@ -128,7 +128,7 @@ public class Enemy : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col) {
         if(col.gameObject.tag == "Fireball") {
-            Debug.Log("Hit by bullet");
+            Debug.Log("Hit by fireball");
             Destroy(gameObject);
         }
     }

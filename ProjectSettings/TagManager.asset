@@ -7,6 +7,7 @@ TagManager:
   - Bullet
   - Enemy
   - Fireball
+  - HeartUI
   layers:
   - Default
   - TransparentFX
@@ -43,4 +44,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1783203753
+    locked: 0
+  - name: Player
+    uniqueID: 3850577819
+    locked: 0
+  - name: Ground
+    uniqueID: 1506245361
     locked: 0

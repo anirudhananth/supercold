@@ -24,6 +24,8 @@ public class Movement : MonoBehaviour
     private float dashingCooldown = 1f;
     private int dashCount = 0;
 
+    private int playerHealth = 3;
+
     private bool isFacingRight = true;
 
     private Collider2D isGrounded;
@@ -38,9 +40,12 @@ public class Movement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private ConstantForce2D constantForce;
     [SerializeField] private Slider staminaBar;
+    [SerializeField] private Canvas canvas;
+    [SerializeField] private GameObject heartPrefab;
 
     private void Start()
-    {   
+    {
+        UpdateHealthUI();   
     }
 
     private void Update()
@@ -197,6 +202,36 @@ public class Movement : MonoBehaviour
         }
     }
 
+    public void UpdateHealthUI()
+    {
+        DeleteHealthUI();
+        for (int i = 0; i < playerHealth; i++)
+        {
+            GameObject heart = Instantiate(heartPrefab, canvas.transform);
+            heart.tag = "HeartUI";
+
+            RectTransform rect = heart.GetComponent<RectTransform>();
+            rect.anchoredPosition = new Vector2(330 - (rect.sizeDelta.x /2 * i), 200);
+        }
+    }
+
+    void DeleteHealthUI()
+    {
+        foreach (Transform child in canvas.transform)
+        {
+            if (child.gameObject.CompareTag("HeartUI"))
+            {
+                Destroy(child.gameObject);
+            }
+        }
+    }
+
+
     void OnCollisionEnter2D(Collision2D col) {
+        if(col.gameObject.tag == "Bullet") {
+            Debug.Log("Hit by bullet");
+            playerHealth--;
+            UpdateHealthUI();
+        }
     }
 }
