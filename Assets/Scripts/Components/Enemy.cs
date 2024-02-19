@@ -125,4 +125,11 @@ public class Enemy : MonoBehaviour
                 break;
         }
     }
+
+    void OnCollisionEnter2D(Collision2D col) {
+        if(col.gameObject.tag == "Fireball") {
+            Debug.Log("Hit by bullet");
+            Destroy(gameObject);
+        }
+    }
 }

@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Supercold.sln"
+    "dotnet.defaultSolution": "supercold.sln"
 }
