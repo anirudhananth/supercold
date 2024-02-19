@@ -12,8 +12,12 @@ public class Movement : MonoBehaviour
     private float jumpingPower = 20f;
     private float flyingPower = 5f;
     private bool canFly = false;
-    private float currentStamina = 100.0f;
-    private float maxStamina = 100.0f;
+    private bool isFlying = false;
+    private float groundTimer = 0f;
+    private float currentStamina = 150.0f;
+    private float maxStamina = 150.0f;
+    private float staminaUsageSpeed = 50f;
+    private float staminaRegenSpeed = 75f;
     private Coroutine regenStaminaRoutine = null;
     
     private bool canDash = true;
@@ -46,6 +50,7 @@ public class Movement : MonoBehaviour
     private void Start()
     {
         UpdateHealthUI();   
+        staminaBar.maxValue = maxStamina;
     }
 
     private void Update()
@@ -56,6 +61,8 @@ public class Movement : MonoBehaviour
         Jump();
         Dash();
         staminaBar.value = currentStamina;
+
+        if(isGrounded) isFlying = false;
     }
 
     private void FixedUpdate()
@@ -72,6 +79,18 @@ public class Movement : MonoBehaviour
         {
             Flip();
         }
+
+        if(isFlying && Input.GetKey(KeyCode.Space)) {
+            currentStamina -= Time.fixedDeltaTime * staminaUsageSpeed;
+            currentStamina = Mathf.Max(currentStamina, 0f);
+        }
+
+        if(!isFlying) groundTimer += Time.fixedDeltaTime;
+
+        if(!isFlying && groundTimer > 1.0f) {
+            currentStamina += Time.fixedDeltaTime * staminaRegenSpeed;
+            currentStamina = Mathf.Min(currentStamina, maxStamina);
+        }
     }
 
     private void Jump()
@@ -85,23 +104,16 @@ public class Movement : MonoBehaviour
         }
 
         if (canFly && Input.GetKey(KeyCode.Space) && !isGrounded) {
-            if (regenStaminaRoutine != null)
-            {
-                StopCoroutine(regenStaminaRoutine);
-            }
-            if (currentStamina > 0.0f)
-            {
+            isFlying = true;
+            groundTimer = 0f;
+            if (currentStamina > 0.0f) {
                 rb.velocity = new Vector2(rb.velocity.x, flyingPower);
-                if (!jetpackParticles.isPlaying)
-                {
+                if (!jetpackParticles.isPlaying) {
                     jetpackParticles.Play();
                 }
-                currentStamina = Mathf.Max(currentStamina - 0.1f, 0.0f);
             }
-            else
-            {
-                if (jetpackParticles.isPlaying)
-                {
+            else {
+                if (jetpackParticles.isPlaying) {
                     jetpackParticles.Stop();
                 }
             }
@@ -109,10 +121,6 @@ public class Movement : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.Space)) {
             jetpackParticles.Stop();
-            if (canFly)
-            {
-                regenStaminaRoutine = StartCoroutine(RegenStamina());
-            }
             if (rb.velocity.y > 0f) {
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
             }
@@ -191,16 +199,16 @@ public class Movement : MonoBehaviour
         canDash = true;
     }
 
-    private IEnumerator RegenStamina()
-    {
-        yield return new WaitForSeconds(1.0f);
+    // private IEnumerator RegenStamina()
+    // {
+    //     yield return new WaitForSeconds(1.0f);
 
-        while (currentStamina < maxStamina)
-        {
-            currentStamina = Mathf.Min(currentStamina + 0.05f, maxStamina);
-            yield return null;
-        }
-    }
+    //     while (currentStamina < maxStamina)
+    //     {
+    //         currentStamina = Mathf.Min(currentStamina + 0.05f, maxStamina);
+    //         yield return null;
+    //     }
+    // }
 
     public void UpdateHealthUI()
     {
