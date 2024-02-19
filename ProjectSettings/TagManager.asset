@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Fireball
   - HeartUI
+  - Trap
   layers:
   - Default
   - TransparentFX
