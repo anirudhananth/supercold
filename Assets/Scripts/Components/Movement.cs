@@ -28,7 +28,7 @@ public class Movement : MonoBehaviour
     private int dashCount = 0;
 
     private int playerHealth = 3;
-
+    private int key = 0;
     private bool isFacingRight = true;
 
     private Collider2D isGrounded;
@@ -152,6 +152,11 @@ public class Movement : MonoBehaviour
         }
     }
 
+    public int GetNumOfKeys()
+    {
+        return key;
+    }
+
     private IEnumerator PerformDash() {
         if (dashCount == 1 && !isGrounded) yield break;
 
@@ -228,6 +233,21 @@ public class Movement : MonoBehaviour
             Debug.Log("Hit by bullet");
             playerHealth--;
             UpdateHealthUI();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Door"))
+        {
+            if(key>1)
+            {
+                Debug.Log("Stage clear");
+            }
+        }
+        else if(other.gameObject.CompareTag("Key"))
+        {
+            key++;
         }
     }
 }

@@ -11,6 +11,8 @@ TagManager:
   - Trap
   - Ground
   - Coin
+  - Door
+  - Gate
   layers:
   - Default
   - TransparentFX
