@@ -10,6 +10,7 @@ TagManager:
   - HeartUI
   - Trap
   - Ground
+  - Coin
   layers:
   - Default
   - TransparentFX

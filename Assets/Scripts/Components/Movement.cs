@@ -18,7 +18,6 @@ public class Movement : MonoBehaviour
     private float maxStamina = 150.0f;
     private float staminaUsageSpeed = 50f;
     private float staminaRegenSpeed = 75f;
-    private Coroutine regenStaminaRoutine = null;
     
     private bool canDash = true;
     private bool isDashing;
@@ -198,17 +197,6 @@ public class Movement : MonoBehaviour
 
         canDash = true;
     }
-
-    // private IEnumerator RegenStamina()
-    // {
-    //     yield return new WaitForSeconds(1.0f);
-
-    //     while (currentStamina < maxStamina)
-    //     {
-    //         currentStamina = Mathf.Min(currentStamina + 0.05f, maxStamina);
-    //         yield return null;
-    //     }
-    // }
 
     public void UpdateHealthUI()
     {
