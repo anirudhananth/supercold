@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Movement : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class Movement : MonoBehaviour
     private float jumpingPower = 20f;
     private float flyingPower = 5f;
     private bool canFly = false;
+    private float currentStamina = 100.0f;
+    private float maxStamina = 100.0f;
+    private Coroutine regenStaminaRoutine = null;
     
     private bool canDash = true;
     private bool isDashing;
@@ -33,6 +37,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private ConstantForce2D constantForce;
+    [SerializeField] private Slider staminaBar;
 
     private void Start()
     {   
@@ -45,6 +50,7 @@ public class Movement : MonoBehaviour
         vertical = Input.GetAxis("Vertical");
         Jump();
         Dash();
+        staminaBar.value = currentStamina;
     }
 
     private void FixedUpdate()
@@ -74,14 +80,34 @@ public class Movement : MonoBehaviour
         }
 
         if (canFly && Input.GetKey(KeyCode.Space) && !isGrounded) {
-            rb.velocity = new Vector2(rb.velocity.x, flyingPower);
-            if (!jetpackParticles.isPlaying) {
-                jetpackParticles.Play();
+            if (regenStaminaRoutine != null)
+            {
+                StopCoroutine(regenStaminaRoutine);
+            }
+            if (currentStamina > 0.0f)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, flyingPower);
+                if (!jetpackParticles.isPlaying)
+                {
+                    jetpackParticles.Play();
+                }
+                currentStamina = Mathf.Max(currentStamina - 0.1f, 0.0f);
+            }
+            else
+            {
+                if (jetpackParticles.isPlaying)
+                {
+                    jetpackParticles.Stop();
+                }
             }
         }
 
         if (Input.GetKeyUp(KeyCode.Space)) {
             jetpackParticles.Stop();
+            if (canFly)
+            {
+                regenStaminaRoutine = StartCoroutine(RegenStamina());
+            }
             if (rb.velocity.y > 0f) {
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
             }
@@ -158,6 +184,17 @@ public class Movement : MonoBehaviour
         yield return new WaitForSeconds(dashingCooldown);
 
         canDash = true;
+    }
+
+    private IEnumerator RegenStamina()
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        while (currentStamina < maxStamina)
+        {
+            currentStamina = Mathf.Min(currentStamina + 0.05f, maxStamina);
+            yield return null;
+        }
     }
 
     void OnCollisionEnter2D(Collision2D col) {
