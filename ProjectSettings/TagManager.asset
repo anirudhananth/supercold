@@ -9,6 +9,7 @@ TagManager:
   - Fireball
   - HeartUI
   - Trap
+  - Ground
   layers:
   - Default
   - TransparentFX
