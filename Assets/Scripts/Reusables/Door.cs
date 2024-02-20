@@ -11,6 +11,8 @@ public class Door : MonoBehaviour
     public Sprite openDoor;
 
     public AudioClip doorSound;
+    private SoundManager soundManager;
+
     private AudioSource audioSource;
     private GameObject messageText; // Assign text in the Unity Editor
 
@@ -22,6 +24,7 @@ public class Door : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         audioSource = GetComponent<AudioSource>();
         sprite = GetComponent<SpriteRenderer>();
+        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         messageText.SetActive(false);
     }
 
@@ -47,7 +50,7 @@ public class Door : MonoBehaviour
             }
             else
             {
-                audioSource.PlayOneShot(doorSound);
+                soundManager.PlayNextLevel();
             }
 
         }

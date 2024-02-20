@@ -5,10 +5,13 @@ using UnityEngine;
 public class Key : MonoBehaviour
 {
 
+    SoundManager soundManager;
+
     // Start is called before the first frame update
     void Start()
     {
-    }
+        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+    }   
 
     // Update is called once per frame
     void Update()
@@ -20,6 +23,7 @@ public class Key : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
+            soundManager.PlayKeySound();
             Destroy(gameObject);
         }
     }
