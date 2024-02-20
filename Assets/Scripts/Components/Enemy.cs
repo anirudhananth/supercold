@@ -165,6 +165,7 @@ public class Enemy : MonoBehaviour
             if(health == 0) {
                 animator.SetTrigger("Death");
                 isAlive = false;
+                Physics2D.IgnoreLayerCollision(7, 9, true);
             } else {
                 animator.SetTrigger("Hit");
             }
