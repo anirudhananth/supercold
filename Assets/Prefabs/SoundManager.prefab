@@ -247,3 +247,7 @@ MonoBehaviour:
   playerShootSound: {fileID: 8300000, guid: 970285fad9519894abb2282aea884fbe, type: 3}
   skullExplodeSound: {fileID: 8300000, guid: 8e024b68a411ce44690f8d26768fbeeb, type: 3}
   playerHurt: {fileID: 8300000, guid: 18da6512c70f9c24a91dc433168c80a8, type: 3}
+  enemyAttack: {fileID: 8300000, guid: f1ce4de1365e3c24d91d64fca282d596, type: 3}
+  fireballExplode: {fileID: 8300000, guid: 07c0cd71e420793429fbb41f4abd69ca, type: 3}
+  enemyDie: {fileID: 8300000, guid: b7cb0fabe4d8e1b40b8c9bf4243ce0bc, type: 3}
+  enemyHurt: {fileID: 8300000, guid: e432cdfd5a7b59e44bcff7ff68ef5bb6, type: 3}

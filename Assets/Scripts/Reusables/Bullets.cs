@@ -8,11 +8,13 @@ public class Bullets : MonoBehaviour
     public float speed = 20f;
     private Rigidbody2D rb;
     private Animator animator;
+    private SoundManager soundManager;
     
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
+        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         rb = GetComponent<Rigidbody2D>();
         Vector2 moveDirection = (GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized;
         rb.velocity = moveDirection * speed;
@@ -41,6 +43,7 @@ public class Bullets : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         animator.SetTrigger("Hit");
+        soundManager.PlayFireballExplode();
         rb.velocity = Vector2.zero;
         StartCoroutine(DestroyBullet());
     }

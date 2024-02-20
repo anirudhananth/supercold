@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     private float shootingTimer;
     private bool movingToA = true;
+    private SoundManager soundManager;
     GameObject player;
 
     [SerializeField] Animator animator;
@@ -41,6 +42,7 @@ public class Enemy : MonoBehaviour
         shootingTimer = shootingCooldown;
         currentState = State.Patrolling;
         rb = GetComponent<Rigidbody2D>();
+        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -130,6 +132,7 @@ public class Enemy : MonoBehaviour
         if (shootingTimer <= 0)
         {
             // Coroutine coroutine = StartCoroutine(ShootBullet());
+            soundManager.PlayEnemyAttack();
             Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
             shootingTimer = shootingCooldown;
         }
@@ -163,11 +166,13 @@ public class Enemy : MonoBehaviour
         if(isAlive && col.gameObject.tag == "Fireball") {
             health--;
             if(health == 0) {
+                soundManager.PlayEnemyDie();
                 animator.SetTrigger("Death");
                 isAlive = false;
                 GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
                 GetComponent<Collider2D>().enabled = false;
             } else {
+                soundManager.PlayEnemyHurt();
                 animator.SetTrigger("Hit");
             }
         }

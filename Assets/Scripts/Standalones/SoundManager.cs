@@ -17,6 +17,10 @@ public class SoundManager : MonoBehaviour
     public AudioClip playerShootSound;
     public AudioClip skullExplodeSound;
     public AudioClip playerHurt;
+    public AudioClip enemyAttack;
+    public AudioClip fireballExplode;
+    public AudioClip enemyDie;
+    public AudioClip enemyHurt;
     
     void Awake()
     {
@@ -72,5 +76,23 @@ public class SoundManager : MonoBehaviour
     public void PlayPlayerHurt()
     {
         PlaySFX(playerHurt);
+    }
+
+    public void PlayEnemyAttack()
+    {
+        PlaySFX(enemyAttack);
+    }
+    
+    public void PlayFireballExplode()
+    {
+        PlaySFX(fireballExplode);
+    }
+    public void PlayEnemyDie()
+    {
+        PlaySFX(enemyDie);
+    }
+    public void PlayEnemyHurt()
+    {
+        PlaySFX(enemyHurt);
     }
 }
