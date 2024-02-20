@@ -14,6 +14,7 @@ public class SoundManager : MonoBehaviour
     
     public AudioClip keySound;
     public AudioClip nextLevelSound;
+    public AudioClip coinSound;
     
     void Awake()
     {
@@ -49,5 +50,10 @@ public class SoundManager : MonoBehaviour
     public void PlayNextLevel()
     {
         PlaySFX(nextLevelSound);
+    }
+
+    public void PlayCoinSound()
+    {
+        PlaySFX(coinSound);
     }
 }
