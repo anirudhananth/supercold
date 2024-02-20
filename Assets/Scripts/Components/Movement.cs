@@ -320,11 +320,10 @@ public class Movement : MonoBehaviour
     private void GetHit()
     {
         soundManager.PlayPlayerHurt();
-        animator.SetTrigger("Hit");
         playerHealth--;
         if (playerHealth > 0)
         {
-            StartCoroutine(Respawn());
+            animator.SetTrigger("Hit");
         }
         else
         {

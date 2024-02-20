@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1717009994412555080}
   - component: {fileID: 6164194820993851164}
   m_Layer: 7
-  m_Name: Circle
+  m_Name: SkullSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1025481955
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 1595534713, guid: 95810fd23c699485a885ed58901f3841, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4902,7 +4902,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1025481955
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 2
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -4949,7 +4949,7 @@ GameObject:
   - component: {fileID: 7268421505035985783}
   - component: {fileID: 8839054716265573740}
   m_Layer: 7
-  m_Name: Fireball
+  m_Name: SkullBomb
   m_TagString: Fireball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

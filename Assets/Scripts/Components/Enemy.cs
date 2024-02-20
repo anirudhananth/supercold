@@ -18,40 +18,53 @@ public class Enemy : MonoBehaviour
     public GameObject bulletPrefab;
     public Transform shootingPoint;
 
+    private bool isAlive = true;
+
+    private int health = 2;
     public float speed = 2f;
     public float shootingRange = 10f;
-    public float shootingCooldown = 2f;
+    public float shootingCooldown = 1.0f;
     
     private Rigidbody2D rb;
     private float shootingTimer;
     private bool movingToA = true;
     GameObject player;
+
+    [SerializeField] Animator animator;
     
 
     // Start is called before the first frame update
     void Start()
     {
+        shootingTimer = shootingCooldown;
         currentState = State.Patrolling;
         rb = GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        if(!isAlive) return;
+
         if(player.GetComponent<Movement>().gameOver) return;
         switch(currentState)
         {
             case State.Patrolling:
-                Patro();
+                animator.SetBool("Attacking", false);
+                animator.SetTrigger("Patrolling");
+                shootingTimer = shootingCooldown;
+                Patrol();
                 if(CheckForPlayer())
                 {
                     changeState(State.Attacking);
                 }
                 break;
             case State.Chasing:
+                shootingTimer = shootingCooldown;
                 break;
             case State.Attacking:
+                StartCoroutine(AttackAnimationDelay());
                 Attack();
                 if(!CheckForPlayer())
                 {
@@ -61,9 +74,12 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void Patro()
+    void Patrol()
     {
         Transform target = movingToA ? pointA : pointB;
+        float x = movingToA ? -1f : 1f;
+        transform.localScale = new(x, transform.localScale.y);
+
         Vector2 newPosition = Vector2.MoveTowards(rb.position, target.position, speed * Time.fixedDeltaTime);
 
         rb.MovePosition(newPosition);
@@ -82,6 +98,11 @@ public class Enemy : MonoBehaviour
         Vector2 directionToPlayer = player.transform.position - transform.position;
         Vector2 forward = movingToA ? (pointA.position - pointB.position).normalized : (pointB.position - pointA.position).normalized;
         float angleToPlayer = Vector2.Angle(forward, directionToPlayer);
+        
+        float x = movingToA ? -1f : 1f;
+        transform.localScale = new(x, transform.localScale.y);
+        if(Mathf.Abs(angleToPlayer) > 50f) return false;
+        
         float distanceToPlayer = directionToPlayer.magnitude;
 
         //Check if facing the player and within range
@@ -105,13 +126,19 @@ public class Enemy : MonoBehaviour
     {
         if (shootingTimer <= 0)
         {
+            // Coroutine coroutine = StartCoroutine(ShootBullet());
             Instantiate(bulletPrefab, shootingPoint.position, Quaternion.identity);
             shootingTimer = shootingCooldown;
         }
         else
         {
-            shootingTimer -= Time.deltaTime;
+            shootingTimer -= Time.fixedDeltaTime * 1.35f;
         }
+    }
+
+    private IEnumerator AttackAnimationDelay() {
+        yield return new WaitForSeconds(0.4f);
+        animator.SetBool("Attacking", true);
     }
 
     public void changeState(State newState)
@@ -132,7 +159,13 @@ public class Enemy : MonoBehaviour
     void OnCollisionEnter2D(Collision2D col) {
         if(col.gameObject.tag == "Fireball") {
             Debug.Log("Hit by fireball");
-            Destroy(gameObject);
+            health--;
+            if(health == 0) {
+                animator.SetTrigger("Death");
+                isAlive = false;
+            } else {
+                animator.SetTrigger("Hit");
+            }
         }
     }
 }

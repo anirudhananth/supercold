@@ -13,6 +13,7 @@ TagManager:
   - Coin
   - Door
   - Gate
+  - Key
   layers:
   - Default
   - TransparentFX
@@ -58,6 +59,9 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 1506245361
+    locked: 0
+  - name: Enemy
+    uniqueID: 324718773
     locked: 0
   - name: Fireball
     uniqueID: 3269485341

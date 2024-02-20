@@ -7,13 +7,18 @@ public class Bullets : MonoBehaviour
 {
     public float speed = 20f;
     private Rigidbody2D rb;
+    private Animator animator;
     
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         Vector2 moveDirection = (GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized;
         rb.velocity = moveDirection * speed;
+
+        float angle = Mathf.Atan2(moveDirection.y, moveDirection.x) * Mathf.Rad2Deg;
+        rb.rotation = angle;
     }
 
     // Update is called once per frame
@@ -35,6 +40,16 @@ public class Bullets : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        animator.SetTrigger("Hit");
+        rb.velocity = Vector2.zero;
+        StartCoroutine(DestroyBullet());
+    }
+
+    private IEnumerator DestroyBullet() {
+        GetComponent<Collider2D>().enabled = false;
+
+        yield return new WaitForSeconds(1f);
+
         Destroy(gameObject);
     }
 }
