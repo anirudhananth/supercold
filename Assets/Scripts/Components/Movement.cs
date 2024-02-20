@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
 {
@@ -31,13 +32,14 @@ public class Movement : MonoBehaviour
     private float dashingCooldown = 1f;
     private int dashCount = 0;
 
+    private Vector3 startPosition;
+
     private int playerHealth = 3;
     private int key = 0;
     private bool isFacingRight = true;
 
     private Collider2D isGrounded;
     Vector3 movementVector;
-    private int health = 4;
 
     private Rigidbody2D rb => GetComponent<Rigidbody2D>();
 
@@ -53,8 +55,9 @@ public class Movement : MonoBehaviour
 
     private void Start()
     {
-        UpdateHealthUI();   
+        UpdateHealthUI();
         staminaBar.maxValue = maxStamina;
+        startPosition = gameObject.transform.position;
     }
 
     private void Update()
@@ -75,7 +78,7 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(isDashing) return;
+        if(isDashing || gameOver) return;
         // Vector3 movementVector = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0);
         // rb.MovePosition(rb.position + movementVector * speed * Time.fixedDeltaTime);
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
@@ -250,20 +253,17 @@ public class Movement : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D col) {
-        if(col.gameObject.tag == "Bullet") {
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.CompareTag("Bullet"))
+        {
             Debug.Log("Hit by bullet");
-            animator.SetTrigger("Hit");
-            playerHealth--;
-            if(playerHealth == 0) {
-                animator.SetTrigger("Death");
-                gameOver = true;
-                BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
-                GetComponent<BoxCollider2D>().size = new(boxCollider.size.x * 4, boxCollider.size.y);
-                rb.velocity = Vector2.zero;
-            }
-            StartCoroutine(CantFlyTimer());
-            UpdateHealthUI();
+            GetHit();
+        }
+        else if (col.gameObject.CompareTag("Trap"))
+        {
+            Debug.Log("Hit by trap");
+            GetHit();
         }
     }
 
@@ -281,7 +281,7 @@ public class Movement : MonoBehaviour
             key++;
         }
     }
-    
+
     private IEnumerator CantFlyTimer() {
         canFly = false;
         jetpackParticles.Stop();
@@ -289,5 +289,42 @@ public class Movement : MonoBehaviour
         yield return new WaitForSeconds(0.75f);
 
         canFly = true;
+    }
+
+    private IEnumerator Respawn()
+    {
+        yield return new WaitForSeconds(0.25f);
+
+        gameObject.transform.position = startPosition;
+        yield return null;
+    }
+
+    private IEnumerator JumpToGameOver()
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        SceneManager.LoadScene("GameOver");
+        yield return null;
+    }
+
+    private void GetHit()
+    {
+        animator.SetTrigger("Hit");
+        playerHealth--;
+        if (playerHealth > 0)
+        {
+            StartCoroutine(Respawn());
+        }
+        else
+        {
+            animator.SetTrigger("Death");
+            gameOver = true;
+            BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
+            GetComponent<BoxCollider2D>().size = new(boxCollider.size.x * 4, boxCollider.size.y);
+            rb.velocity = Vector2.zero;
+            StartCoroutine(JumpToGameOver());
+        }
+        StartCoroutine(CantFlyTimer());
+        UpdateHealthUI();
     }
 }
