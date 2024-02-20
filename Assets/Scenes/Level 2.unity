@@ -172,6 +172,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5877549304228808665, guid: f2dea4280f3527e46aaa02c3856994b4, type: 3}
   m_PrefabInstance: {fileID: 1116095038}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &96758020
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 96758021}
+  m_Layer: 0
+  m_Name: GroundReference
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &96758021
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 96758020}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -16.44, y: -3.13, z: 0.4167471}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &162473642 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5877549304228808665, guid: f2dea4280f3527e46aaa02c3856994b4, type: 3}
@@ -2099,7 +2130,7 @@ MonoBehaviour:
   targetTransform: {fileID: 641017632}
   standardOffset: {x: 0, y: 0, z: 0}
   minYOffsetWhenJumping: -5
-  groundReference: {fileID: 1690339801}
+  groundReference: {fileID: 96758021}
 --- !u!1 &558832040
 GameObject:
   m_ObjectHideFlags: 0
@@ -24498,3 +24529,4 @@ SceneRoots:
   - {fileID: 1888872499}
   - {fileID: 370232853}
   - {fileID: 1217123064}
+  - {fileID: 96758021}
