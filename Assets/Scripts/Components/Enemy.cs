@@ -160,12 +160,13 @@ public class Enemy : MonoBehaviour
     }
 
     void OnCollisionEnter2D(Collision2D col) {
-        if(col.gameObject.tag == "Fireball") {
+        if(isAlive && col.gameObject.tag == "Fireball") {
             health--;
             if(health == 0) {
                 animator.SetTrigger("Death");
                 isAlive = false;
-                Physics2D.IgnoreLayerCollision(7, 9, true);
+                GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+                GetComponent<Collider2D>().enabled = false;
             } else {
                 animator.SetTrigger("Hit");
             }
