@@ -271,9 +271,11 @@ public class Movement : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Door"))
         {
-            if(key>1)
+            Debug.Log("Stage clear");
+            if(key>=1)
             {
                 Debug.Log("Stage clear");
+                LoadNextSceneByIndex();
             }
         }
         else if(other.gameObject.CompareTag("Key"))
@@ -289,6 +291,12 @@ public class Movement : MonoBehaviour
         yield return new WaitForSeconds(0.75f);
 
         canFly = true;
+    }
+
+    public void LoadNextSceneByIndex()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex + 1);
     }
 
     private IEnumerator Respawn()

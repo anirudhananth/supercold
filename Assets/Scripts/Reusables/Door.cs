@@ -5,15 +5,8 @@ using UnityEngine;
 public class Door : MonoBehaviour
 {
     private Movement player;
-    private BoxCollider2D boxCollider;
-    private SpriteRenderer sprite;
 
-    public Sprite openDoor;
-
-    public AudioClip doorSound;
     private SoundManager soundManager;
-
-    private AudioSource audioSource;
     private GameObject messageText; // Assign text in the Unity Editor
 
     // Start is called before the first frame update
@@ -21,9 +14,6 @@ public class Door : MonoBehaviour
     {
         player = GameObject.Find("Player").GetComponent<Movement>();
         messageText = GameObject.Find("Canvas").transform.Find("DoorMessage").gameObject;
-        boxCollider = GetComponent<BoxCollider2D>();
-        audioSource = GetComponent<AudioSource>();
-        sprite = GetComponent<SpriteRenderer>();
         soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         messageText.SetActive(false);
     }
@@ -31,11 +21,6 @@ public class Door : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int numOfKey = player.GetNumOfKeys();
-        if(numOfKey >= 1)
-        {
-            sprite.sprite = openDoor;
-        }
 
     }
 
