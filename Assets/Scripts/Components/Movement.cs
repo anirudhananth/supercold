@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,9 @@ public class Movement : MonoBehaviour
     private float flyingPower = 5f;
     private bool canFly = false;
     private bool isFlying = false;
+    private bool isJumping = false;
+    private bool isFalling = true;
+    [NonSerialized] public bool gameOver = false;
     private float groundTimer = 0f;
     private float currentStamina = 150.0f;
     private float maxStamina = 150.0f;
@@ -45,6 +49,7 @@ public class Movement : MonoBehaviour
     [SerializeField] private Slider staminaBar;
     [SerializeField] private Canvas canvas;
     [SerializeField] private GameObject heartPrefab;
+    [SerializeField] private Animator animator;
 
     private void Start()
     {
@@ -61,7 +66,11 @@ public class Movement : MonoBehaviour
         Dash();
         staminaBar.value = currentStamina;
 
-        if(isGrounded) isFlying = false;
+        if(isGrounded) {
+            isFlying = false;
+        }
+        animator.SetBool("Grounded", isGrounded);
+        animator.SetFloat("FallSpeed", rb.velocity.y);
     }
 
     private void FixedUpdate()
@@ -70,6 +79,7 @@ public class Movement : MonoBehaviour
         // Vector3 movementVector = new Vector3(Input.GetAxisRaw("Horizontal"), 0, 0);
         // rb.MovePosition(rb.position + movementVector * speed * Time.fixedDeltaTime);
         rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        animator.SetFloat("Running", Mathf.Abs(rb.velocity.x));
         if (horizontal > 0 && !isFacingRight)
         {
             Flip();
@@ -90,6 +100,14 @@ public class Movement : MonoBehaviour
             currentStamina += Time.fixedDeltaTime * staminaRegenSpeed;
             currentStamina = Mathf.Min(currentStamina, maxStamina);
         }
+
+        if(isJumping && isGrounded) {
+            isJumping = false;
+        }
+
+        if(rb.velocity.y < 0f) {
+            animator.SetTrigger("Falling");
+        }
     }
 
     private void Jump()
@@ -97,6 +115,8 @@ public class Movement : MonoBehaviour
         if(isDashing) return;
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded) {
+            isJumping = true;
+            animator.SetTrigger("Jump");
             // var platform = isGrounded.gameObject.name;
             rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
             canFly = false;
@@ -105,6 +125,7 @@ public class Movement : MonoBehaviour
         if (canFly && Input.GetKey(KeyCode.Space) && !isGrounded) {
             isFlying = true;
             groundTimer = 0f;
+            animator.SetTrigger("Flying");
             if (currentStamina > 0.0f) {
                 rb.velocity = new Vector2(rb.velocity.x, flyingPower);
                 if (!jetpackParticles.isPlaying) {
@@ -119,6 +140,7 @@ public class Movement : MonoBehaviour
         }
 
         if (Input.GetKeyUp(KeyCode.Space)) {
+            isFalling = true;
             jetpackParticles.Stop();
             if (rb.velocity.y > 0f) {
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
@@ -160,6 +182,7 @@ public class Movement : MonoBehaviour
     private IEnumerator PerformDash() {
         if (dashCount == 1 && !isGrounded) yield break;
 
+        animator.SetTrigger("Dash");
         Vector2 temp = new(constantForce.force.x, constantForce.force.y);
         constantForce.force = new Vector2(0,0);
         canDash = false;
@@ -227,11 +250,19 @@ public class Movement : MonoBehaviour
         }
     }
 
-
     void OnCollisionEnter2D(Collision2D col) {
         if(col.gameObject.tag == "Bullet") {
             Debug.Log("Hit by bullet");
+            animator.SetTrigger("Hit");
             playerHealth--;
+            if(playerHealth == 0) {
+                animator.SetTrigger("Death");
+                gameOver = true;
+                BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
+                GetComponent<BoxCollider2D>().size = new(boxCollider.size.x * 4, boxCollider.size.y);
+                rb.velocity = Vector2.zero;
+            }
+            StartCoroutine(CantFlyTimer());
             UpdateHealthUI();
         }
     }
@@ -249,5 +280,14 @@ public class Movement : MonoBehaviour
         {
             key++;
         }
+    }
+    
+    private IEnumerator CantFlyTimer() {
+        canFly = false;
+        jetpackParticles.Stop();
+
+        yield return new WaitForSeconds(0.75f);
+
+        canFly = true;
     }
 }

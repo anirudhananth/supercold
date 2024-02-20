@@ -8,6 +8,7 @@ public class FireballShooter : MonoBehaviour
     [SerializeField] Transform fireballTransform;
     private Rigidbody2D rb;
     private float fireballSpeed = 17.5f;
+    [SerializeField] Animator playerAnimator;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class FireballShooter : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0)) {
             ShootFireball();
+            playerAnimator.SetTrigger("Attack");
         }
     }
 

@@ -25,6 +25,7 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     private float shootingTimer;
     private bool movingToA = true;
+    GameObject player;
     
 
     // Start is called before the first frame update
@@ -32,11 +33,13 @@ public class Enemy : MonoBehaviour
     {
         currentState = State.Patrolling;
         rb = GetComponent<Rigidbody2D>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(player.GetComponent<Movement>().gameOver) return;
         switch(currentState)
         {
             case State.Patrolling:
@@ -73,7 +76,7 @@ public class Enemy : MonoBehaviour
 
     bool CheckForPlayer()
     {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        
         if (player == null) return false;
 
         Vector2 directionToPlayer = player.transform.position - transform.position;
