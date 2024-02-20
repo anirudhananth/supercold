@@ -7,6 +7,7 @@ public class FireballShooter : MonoBehaviour
     [SerializeField] GameObject fireballPrefab;
     [SerializeField] Transform fireballTransform;
     private Rigidbody2D rb;
+    private SoundManager soundManager;
     private float fireballSpeed = 17.5f;
     private bool canShoot = true;
     [SerializeField] Animator playerAnimator;
@@ -14,7 +15,7 @@ public class FireballShooter : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
     }
 
     // Update is called once per frame
@@ -39,6 +40,7 @@ public class FireballShooter : MonoBehaviour
                 return;
             }
         }
+        soundManager.PlayPlayerShoot();
         StartCoroutine(ShootFireball(direction));
     }
 
@@ -47,7 +49,6 @@ public class FireballShooter : MonoBehaviour
         playerAnimator.SetTrigger("Attack");
 
         yield return new WaitForSeconds(0.4f);
-        
         GameObject fireball = Instantiate(fireballPrefab, fireballTransform.position, Quaternion.identity);
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;

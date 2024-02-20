@@ -14,6 +14,9 @@ public class SoundManager : MonoBehaviour
     public AudioClip keySound;
     public AudioClip nextLevelSound;
     public AudioClip coinSound;
+    public AudioClip playerShootSound;
+    public AudioClip skullExplodeSound;
+    public AudioClip playerHurt;
     
     void Awake()
     {
@@ -54,5 +57,20 @@ public class SoundManager : MonoBehaviour
     public void PlayCoinSound()
     {
         PlaySFX(coinSound);
+    }
+
+    public void PlayPlayerShoot()
+    {
+        PlaySFX(playerShootSound);
+    }
+
+    public void PlaySkullExplode()
+    {
+        PlaySFX(skullExplodeSound);
+    }
+
+    public void PlayPlayerHurt()
+    {
+        PlaySFX(playerHurt);
     }
 }

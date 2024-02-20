@@ -244,3 +244,6 @@ MonoBehaviour:
   keySound: {fileID: 8300000, guid: bde03d66aec92604582b59c3f34d85bd, type: 3}
   nextLevelSound: {fileID: 8300000, guid: a39740dde35935742b41eedc301f7340, type: 3}
   coinSound: {fileID: 8300000, guid: d29cbcafb55eb7d4c85eca46243163e9, type: 3}
+  playerShootSound: {fileID: 8300000, guid: 970285fad9519894abb2282aea884fbe, type: 3}
+  skullExplodeSound: {fileID: 8300000, guid: 8e024b68a411ce44690f8d26768fbeeb, type: 3}
+  playerHurt: {fileID: 8300000, guid: 18da6512c70f9c24a91dc433168c80a8, type: 3}

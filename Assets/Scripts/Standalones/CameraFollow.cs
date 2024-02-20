@@ -6,6 +6,11 @@ public class CameraFollow : MonoBehaviour
 {
     private float followSpeed = 2f;
     [SerializeField] Transform targetTransform;
+    [SerializeField] Vector3 standardOffset;
+    [SerializeField] float minYOffsetWhenJumping = -5f;
+    [SerializeField] Transform groundReference;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,8 +19,18 @@ public class CameraFollow : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        Vector3 newPos = new Vector3(targetTransform.position.x, targetTransform.position.y, transform.position.z);
+    {   
+        float dynamicYOffset = Mathf.Lerp(standardOffset.y, minYOffsetWhenJumping, GetJumpHeightFactor());
+        Vector3 dynamicOffset = new Vector3(standardOffset.x, dynamicYOffset, standardOffset.z);
+
+        Vector3 targetPosition = targetTransform.position + dynamicOffset;
+        Vector3 newPos = new Vector3(targetPosition.x, targetPosition.y, transform.position.z);
         transform.position = Vector3.Lerp(transform.position, newPos, followSpeed * Time.deltaTime);
+    }
+
+    float GetJumpHeightFactor()
+    {
+        float jumpHeight = Mathf.Clamp(targetTransform.position.y - groundReference.position.y, 0, 5);
+        return jumpHeight / 5;
     }
 }

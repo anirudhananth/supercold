@@ -42,6 +42,7 @@ public class Movement : MonoBehaviour
     Vector3 movementVector;
 
     private Rigidbody2D rb => GetComponent<Rigidbody2D>();
+    private SoundManager soundManager;
 
     [SerializeField] private ParticleSystem jetpackParticles;
     [SerializeField] private TrailRenderer dashTrail;
@@ -55,6 +56,7 @@ public class Movement : MonoBehaviour
 
     private void Start()
     {
+        soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
         UpdateHealthUI();
         staminaBar.maxValue = maxStamina;
         startPosition = gameObject.transform.position;
@@ -317,6 +319,7 @@ public class Movement : MonoBehaviour
 
     private void GetHit()
     {
+        soundManager.PlayPlayerHurt();
         animator.SetTrigger("Hit");
         playerHealth--;
         if (playerHealth > 0)
