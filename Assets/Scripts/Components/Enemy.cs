@@ -19,11 +19,13 @@ public class Enemy : MonoBehaviour
     public Transform shootingPoint;
 
     private bool isAlive = true;
+    private bool isAttacking = false;
 
     private int health = 2;
     public float speed = 2f;
     public float shootingRange = 10f;
     public float shootingCooldown = 1.0f;
+    private float angleToPlayer;
     
     private Rigidbody2D rb;
     private float shootingTimer;
@@ -64,9 +66,10 @@ public class Enemy : MonoBehaviour
                 shootingTimer = shootingCooldown;
                 break;
             case State.Attacking:
+                isAttacking = true;
                 StartCoroutine(AttackAnimationDelay());
                 Attack();
-                if(!CheckForPlayer())
+                if(!CheckForPlayer() && !isAttacking && (shootingTimer == shootingCooldown) || angleToPlayer > 50f)
                 {
                     changeState(State.Patrolling);
                 }
@@ -97,7 +100,7 @@ public class Enemy : MonoBehaviour
 
         Vector2 directionToPlayer = player.transform.position - transform.position;
         Vector2 forward = movingToA ? (pointA.position - pointB.position).normalized : (pointB.position - pointA.position).normalized;
-        float angleToPlayer = Vector2.Angle(forward, directionToPlayer);
+        angleToPlayer = Vector2.Angle(forward, directionToPlayer);
         
         float x = movingToA ? -1f : 1f;
         transform.localScale = new(x, transform.localScale.y);
@@ -134,6 +137,7 @@ public class Enemy : MonoBehaviour
         {
             shootingTimer -= Time.fixedDeltaTime * 1.35f;
         }
+        isAttacking = false;
     }
 
     private IEnumerator AttackAnimationDelay() {
@@ -144,7 +148,6 @@ public class Enemy : MonoBehaviour
     public void changeState(State newState)
     {
         currentState = newState;
-        Debug.Log(currentState);
         switch(newState)
         {
             case State.Patrolling:
@@ -158,7 +161,6 @@ public class Enemy : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col) {
         if(col.gameObject.tag == "Fireball") {
-            Debug.Log("Hit by fireball");
             health--;
             if(health == 0) {
                 animator.SetTrigger("Death");

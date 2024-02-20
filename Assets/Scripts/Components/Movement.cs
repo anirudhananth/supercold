@@ -35,6 +35,8 @@ public class Movement : MonoBehaviour
     private Vector3 startPosition;
 
     private int playerHealth = 3;
+    private float maxInvincibilityTime = 4f;
+    private float invincibilityTimer;
     private int key = 0;
     private bool isFacingRight = true;
 
@@ -60,6 +62,7 @@ public class Movement : MonoBehaviour
         UpdateHealthUI();
         staminaBar.maxValue = maxStamina;
         startPosition = gameObject.transform.position;
+        invincibilityTimer = 0f;
     }
 
     private void Update()
@@ -113,6 +116,8 @@ public class Movement : MonoBehaviour
         if(rb.velocity.y < 0f) {
             animator.SetTrigger("Falling");
         }
+
+        invincibilityTimer = Mathf.Max(-1f, invincibilityTimer - Time.fixedDeltaTime);
     }
 
     private void Jump()
@@ -259,12 +264,10 @@ public class Movement : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Bullet"))
         {
-            Debug.Log("Hit by bullet");
             GetHit();
         }
         else if (col.gameObject.CompareTag("Trap"))
         {
-            Debug.Log("Hit by trap");
             GetHit();
         }
     }
@@ -319,22 +322,39 @@ public class Movement : MonoBehaviour
 
     private void GetHit()
     {
+        if(invincibilityTimer > 0f) return;
+        invincibilityTimer = maxInvincibilityTime;
         soundManager.PlayPlayerHurt();
         playerHealth--;
         if (playerHealth > 0)
         {
             animator.SetTrigger("Hit");
+            StartCoroutine(InvincibilityFlicker());
         }
         else
         {
             animator.SetTrigger("Death");
             gameOver = true;
-            BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
-            GetComponent<BoxCollider2D>().size = new(boxCollider.size.x * 4, boxCollider.size.y);
+            // BoxCollider2D boxCollider = GetComponent<BoxCollider2D>();
+            // GetComponent<BoxCollider2D>().size = new(boxCollider.size.x * 4, boxCollider.size.y);
             rb.velocity = Vector2.zero;
             StartCoroutine(JumpToGameOver());
         }
         StartCoroutine(CantFlyTimer());
         UpdateHealthUI();
+    }
+
+    private IEnumerator InvincibilityFlicker() {
+        Physics2D.IgnoreLayerCollision(3, 8, true);
+        SpriteRenderer sr = GetComponentInChildren<SpriteRenderer>();
+        while (invincibilityTimer > 0f) {
+            float alpha = Mathf.PingPong(Time.time * (1/0.5f), 1);
+            sr.color = new Color(sr.color.r, sr.color.g, sr.color.b, alpha);
+            GetComponentInChildren<SpriteRenderer>().color = sr.color;
+            yield return null;
+        }
+
+        GetComponentInChildren<SpriteRenderer>().color = new Color(sr.color.r, sr.color.g, sr.color.b, 1f);
+        Physics2D.IgnoreLayerCollision(3, 8, false);
     }
 }

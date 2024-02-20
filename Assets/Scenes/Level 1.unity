@@ -485,11 +485,33 @@ PrefabInstance:
       propertyPath: staminaBar
       value: 
       objectReference: {fileID: 37447162}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 757890799980022980, guid: cf14a5a0006c02340ac7d35ce132cd4b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2355552550042951177, guid: cf14a5a0006c02340ac7d35ce132cd4b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 197476451}
   m_SourcePrefab: {fileID: 100100000, guid: cf14a5a0006c02340ac7d35ce132cd4b, type: 3}
+--- !u!1 &197476450 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2355552550042951177, guid: cf14a5a0006c02340ac7d35ce132cd4b, type: 3}
+  m_PrefabInstance: {fileID: 197476449}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &197476451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 197476450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb71c6a65c7abd4f97ae3f5f8569be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreTmp: {fileID: 2095187486}
 --- !u!1 &212119902
 GameObject:
   m_ObjectHideFlags: 0
@@ -2388,7 +2410,7 @@ GameObject:
   - component: {fileID: 1012473568}
   - component: {fileID: 1012473567}
   - component: {fileID: 1012473566}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Trap
   m_TagString: Trap
   m_Icon: {fileID: 0}
