@@ -416,29 +416,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8935064463384238397, guid: 459dadea726387a4582218bf0a54283a, type: 3}
   m_PrefabInstance: {fileID: 166727438}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &168658380 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2355552550042951177, guid: cf14a5a0006c02340ac7d35ce132cd4b, type: 3}
-  m_PrefabInstance: {fileID: 197476449}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &168658386 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1179705670282716341, guid: cf14a5a0006c02340ac7d35ce132cd4b, type: 3}
   m_PrefabInstance: {fileID: 197476449}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &168658387
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 168658380}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bb71c6a65c7abd4f97ae3f5f8569be0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  scoreTmp: {fileID: 2095187486}
 --- !u!1001 &197476449
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -487,6 +469,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1580936789397915306, guid: cf14a5a0006c02340ac7d35ce132cd4b, type: 3}
+      propertyPath: scoreTmp
+      value: 
+      objectReference: {fileID: 2095187486}
     - target: {fileID: 2355552550042951177, guid: cf14a5a0006c02340ac7d35ce132cd4b, type: 3}
       propertyPath: m_Name
       value: Player
@@ -502,10 +488,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2355552550042951177, guid: cf14a5a0006c02340ac7d35ce132cd4b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 168658387}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf14a5a0006c02340ac7d35ce132cd4b, type: 3}
 --- !u!1 &212119902
 GameObject:
@@ -2407,7 +2390,7 @@ GameObject:
   - component: {fileID: 1012473566}
   m_Layer: 0
   m_Name: Trap
-  m_TagString: Untagged
+  m_TagString: Trap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -41220,6 +41203,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2069702268294529415, guid: 6129e4f83f3de234c8c66715366d89d7, type: 3}
+      propertyPath: nextScene
+      value: Level 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2998367958608724163, guid: 6129e4f83f3de234c8c66715366d89d7, type: 3}
       propertyPath: m_Name
       value: Door
