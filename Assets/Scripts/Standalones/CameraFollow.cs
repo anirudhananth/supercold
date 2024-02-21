@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour
 {
-    private float followSpeed = 2f;
+    private float followSpeed = 1f;
     [SerializeField] Transform targetTransform;
     [SerializeField] Vector3 standardOffset;
     [SerializeField] float minYOffsetWhenJumping = -5f;
     [SerializeField] Transform groundReference;
-    [SerializeField] float offsetXWhenMoving = 15f;
-
+    [SerializeField] float offsetXWhenMoving = 10f;
+    public float offsetXChangeSpeed = 2.0f; // Control the speed of the offset change
+    private float targetXOffset = 5f;
 
     private float lastHorizontalInput = 0;
 
@@ -28,16 +29,15 @@ public class CameraFollow : MonoBehaviour
         float horizontalInput = Input.GetAxisRaw("Horizontal");
         if (horizontalInput != lastHorizontalInput && horizontalInput != 0)
         {
-            float dynamicXOffset = horizontalInput < 0 ? -Mathf.Abs(offsetXWhenMoving) : Mathf.Abs(offsetXWhenMoving);
-            standardOffset.x = dynamicXOffset;
-        }
-        if (horizontalInput != 0)
-        {
+            targetXOffset = horizontalInput < 0 ? -Mathf.Abs(offsetXWhenMoving) : Mathf.Abs(offsetXWhenMoving);
             lastHorizontalInput = horizontalInput;
         }
-        
-        Vector3 dynamicOffset = new Vector3(standardOffset.x, dynamicYOffset, standardOffset.z);
 
+        standardOffset.x = Mathf.Lerp(standardOffset.x, targetXOffset, offsetXChangeSpeed * Time.deltaTime);
+
+
+        Vector3 dynamicOffset = new Vector3(standardOffset.x, dynamicYOffset, standardOffset.z);
+        
         Vector3 targetPosition = targetTransform.position + dynamicOffset;
         Vector3 newPos = new Vector3(targetPosition.x, targetPosition.y, transform.position.z);
         transform.position = Vector3.Lerp(transform.position, newPos, followSpeed * Time.deltaTime);
