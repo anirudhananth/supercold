@@ -8,6 +8,7 @@ public class SoundManager : MonoBehaviour
 
     public AudioSource musicSource;
     public AudioSource sfxSource;
+    public AudioSource flyingSource;
 
     public AudioClip bgm;
     
@@ -21,7 +22,9 @@ public class SoundManager : MonoBehaviour
     public AudioClip fireballExplode;
     public AudioClip enemyDie;
     public AudioClip enemyHurt;
-    
+    public AudioClip playerDash;
+    public AudioClip playerJump;
+
     void Awake()
     {
         if (Instance == null)
@@ -94,5 +97,29 @@ public class SoundManager : MonoBehaviour
     public void PlayEnemyHurt()
     {
         PlaySFX(enemyHurt);
+    }
+
+    public void PlayDash()
+    {
+        PlaySFX(playerDash);
+    }
+
+    public void PlayerFly()
+    {
+        if(flyingSource.isPlaying) return;
+        flyingSource.Play();
+    }
+
+    public void PauseFly() 
+    {
+        flyingSource.Pause();
+    }
+    
+    public void StopFly() {
+        flyingSource.Stop();
+    }
+
+    public void PlayJump() {
+        PlaySFX(playerJump);
     }
 }

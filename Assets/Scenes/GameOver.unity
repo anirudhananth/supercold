@@ -123,6 +123,100 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &24136323
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7204128373868397070, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_Name
+      value: Main Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558885699707638006, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558885699707638006, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558885699707638006, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558885699707638006, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558885699707638006, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558885699707638006, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558885699707638006, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558885699707638006, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558885699707638006, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558885699707638006, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8518086454360114117, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_AllowMSAA
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8518086454360114117, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_TargetEye
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8518086454360114117, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_ClearFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8518086454360114117, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: orthographic size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8518086454360114117, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_OcclusionCulling
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8518086454360114117, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_BackGroundColor.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8518086454360114117, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.4745098
+      objectReference: {fileID: 0}
+    - target: {fileID: 8518086454360114117, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.3019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 8518086454360114117, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.19215687
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6257192069815177149, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8dc744842935840478ed82cc4cfe8223, type: 3}
 --- !u!1 &160730747
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,12 +229,12 @@ GameObject:
   - component: {fileID: 160730749}
   - component: {fileID: 160730748}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: DefaultCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &160730748
 AudioListener:
   m_ObjectHideFlags: 0
@@ -317,8 +411,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 600, y: 150}
+  m_AnchoredPosition: {x: 0, y: 98.3}
+  m_SizeDelta: {x: 900, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &514725985
 MonoBehaviour:
@@ -340,7 +434,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Game Over
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 94eb9ab6a2191de429a9cdc89770169c, type: 2}
   m_sharedMaterial: {fileID: 8160689195303745472, guid: 94eb9ab6a2191de429a9cdc89770169c, type: 2}
@@ -367,8 +461,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 96
-  m_fontSizeBase: 96
+  m_fontSize: 72
+  m_fontSizeBase: 72
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -461,6 +555,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 136f9e98a56fea4408afb72e4b24eaec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 514725985}
 --- !u!1 &689583373
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,10 +737,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 960, y: 540}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -899,3 +994,4 @@ SceneRoots:
   - {fileID: 189582519}
   - {fileID: 2903428997230938963}
   - {fileID: 543042260}
+  - {fileID: 24136323}

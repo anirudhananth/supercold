@@ -34,11 +34,14 @@ public class Movement : MonoBehaviour
 
     private Vector3 startPosition;
 
-    private int playerHealth = 3;
+    [NonSerialized]
+    public int playerHealth = 3;
     private float maxInvincibilityTime = 4f;
     private float invincibilityTimer;
     private int key = 0;
     private bool isFacingRight = true;
+
+    private bool canRestart = true;
 
     private Collider2D isGrounded;
     Vector3 movementVector;
@@ -125,6 +128,7 @@ public class Movement : MonoBehaviour
         if(isDashing) return;
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded) {
+            soundManager.PlayJump();
             isJumping = true;
             animator.SetTrigger("Jump");
             // var platform = isGrounded.gameObject.name;
@@ -137,12 +141,14 @@ public class Movement : MonoBehaviour
             groundTimer = 0f;
             animator.SetTrigger("Flying");
             if (currentStamina > 0.0f) {
+                soundManager.PlayerFly();
                 rb.velocity = new Vector2(rb.velocity.x, flyingPower);
                 if (!jetpackParticles.isPlaying) {
                     jetpackParticles.Play();
                 }
             }
             else {
+                soundManager.StopFly();
                 if (jetpackParticles.isPlaying) {
                     jetpackParticles.Stop();
                 }
@@ -150,6 +156,7 @@ public class Movement : MonoBehaviour
         }
 
         if (Input.GetKeyUp(KeyCode.Space)) {
+            soundManager.StopFly();
             isFalling = true;
             jetpackParticles.Stop();
             if (rb.velocity.y > 0f) {
@@ -197,6 +204,7 @@ public class Movement : MonoBehaviour
         constantForce.force = new Vector2(0,0);
         canDash = false;
         isDashing = true;
+        soundManager.PlayDash();
 
         bool isVertical = false;
         bool pureVertical = false;
@@ -284,6 +292,9 @@ public class Movement : MonoBehaviour
             Debug.Log("Stage clear");
             if(key>=1)
             {
+                if(SceneManager.GetActiveScene().name == "Level 2 New") {
+                    StaticData.gameOverText = "WELL PLAYED.";
+                }
                 Debug.Log("Stage clear");
                 LoadNextSceneByIndex();
             }
@@ -309,18 +320,35 @@ public class Movement : MonoBehaviour
         SceneManager.LoadScene(currentSceneIndex + 1);
     }
 
+    public void Restart() {
+        if(!canRestart) return;
+        canRestart = false;
+        playerHealth--;
+        
+        StartCoroutine(CantFlyTimer());
+        UpdateHealthUI();
+        canDash = false;
+        canFly = false;
+        
+        StartCoroutine(Respawn());
+    }
+
     private IEnumerator Respawn()
     {
         yield return new WaitForSeconds(0.25f);
 
         gameObject.transform.position = startPosition;
         yield return null;
+        canRestart = true;
+        canDash = true;
+        canFly = true;
     }
 
     private IEnumerator JumpToGameOver()
     {
         yield return new WaitForSeconds(1.0f);
 
+        StaticData.gameOverText = "GAME OVER.";
         SceneManager.LoadScene("GameOver");
         yield return null;
     }
