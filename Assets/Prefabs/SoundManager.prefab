@@ -240,7 +240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 7098215921814028835}
   sfxSource: {fileID: 7067154863436590073}
-  bgm: {fileID: 8300000, guid: c960a09b1721bf7438a59fa7f78e9451, type: 3}
+  bgm: {fileID: 8300000, guid: 9008f72650d7bd6459ad40dbc3276b5f, type: 3}
   keySound: {fileID: 8300000, guid: bde03d66aec92604582b59c3f34d85bd, type: 3}
   nextLevelSound: {fileID: 8300000, guid: a39740dde35935742b41eedc301f7340, type: 3}
   coinSound: {fileID: 8300000, guid: d29cbcafb55eb7d4c85eca46243163e9, type: 3}
