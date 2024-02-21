@@ -239,7 +239,7 @@ public class Movement : MonoBehaviour
     public void UpdateHealthUI()
     {
         DeleteHealthUI();
-        float spacing = -50f;
+        float spacing = 10f;
         for (int i = 0; i < playerHealth; i++)
         {
             GameObject heart = Instantiate(heartPrefab, canvas.transform);
@@ -250,7 +250,7 @@ public class Movement : MonoBehaviour
             RectTransform rect = heart.GetComponent<RectTransform>();
             
             float heartWidth = rect.sizeDelta.x + spacing;
-            rect.anchoredPosition = new Vector2(heartWidth * i, 0);
+            rect.anchoredPosition = new Vector2(heartWidth * i + 40f, -40f);
         }
     }
 

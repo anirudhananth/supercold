@@ -21,7 +21,7 @@ public class CoinCollector : MonoBehaviour
             score += coinScore;
             soundManager.PlayCoinSound();
             Destroy(collision.gameObject);
-            scoreTmp.text = string.Format("Score: {0}", score);
+            scoreTmp.text = string.Format("{0}", score);
         }
     }
 }
